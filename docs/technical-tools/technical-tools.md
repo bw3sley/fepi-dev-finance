@@ -1,0 +1,12 @@
+## Microsoft Azure DevOps
+Para organizar e otimizar a colaboração da equipe, adotamos a abordagem de **[DevOps](https://azure.microsoft.com/en-us/free/search/?ef_id=_k_Cj0KCQjwj_ajBhCqARIsAA37s0yHo6B00NWvHmrYk0mkTgePosmXWQylbYk2Auj6U1nFodgcb0Xz3RUaAv4mEALw_wcB_k_&OCID=AIDcmmzmnb0182_SEM__k_Cj0KCQjwj_ajBhCqARIsAA37s0yHo6B00NWvHmrYk0mkTgePosmXWQylbYk2Auj6U1nFodgcb0Xz3RUaAv4mEALw_wcB_k_&gclid=Cj0KCQjwj_ajBhCqARIsAA37s0yHo6B00NWvHmrYk0mkTgePosmXWQylbYk2Auj6U1nFodgcb0Xz3RUaAv4mEALw_wcB)**, que envolve a integração contínua, entrega contínua e automação de processos. Essa metodologia permite uma maior eficiência na gestão das demandas e sprints, garantindo uma entrega ágil e de qualidade.
+
+## MKDocs
+Para a documentação online, escolhemos a poderosa ferramenta **[MKDocs](https://www.mkdocs.org/)**. Com essa solução, podemos criar uma documentação completa e estruturada, com fácil acesso e navegação. O Mkdocs oferece a possibilidade de adicionar recursos adicionais, como pesquisa avançada e personalização de temas, garantindo uma experiência agradável para os usuários.
+
+## App mobile
+Em relação ao desenvolvimento do aplicativo, optamos pela combinação do React Native com o **[Expo](https://docs.expo.dev/)**. Essa escolha nos permite criar um aplicativo híbrido, capaz de ser executado tanto em dispositivos iOS quanto Android. O React Native oferece um ambiente de desenvolvimento eficiente e produtivo, com uma ampla gama de bibliotecas e componentes reutilizáveis, acelerando o processo de criação de interfaces de usuário ricas e intuitivas.
+
+Para a estilização do aplicativo, utilizamos o **[Tailwind CSS](https://tailwindcss.com/)**. Essa biblioteca de estilos oferece uma abordagem pragmática e utilitária, facilitando a construção de interfaces responsivas e modernas. O Tailwind CSS possui uma ampla gama de classes predefinidas, permitindo uma estilização consistente e personalizável, sem a necessidade de escrever CSS tradicional.
+
+Essas escolhas tecnológicas oferecem uma série de benefícios, incluindo a entrega ágil, desenvolvimento multiplataforma, facilidade de manutenção, escalabilidade e uma experiência de usuário rica e agradável. Com a combinação de DevOps, Mkdocs, React Native, Expo e Tailwind CSS, estamos confiantes de que nosso projeto estará bem estruturado, eficiente e alinhado às necessidades dos usuários.
