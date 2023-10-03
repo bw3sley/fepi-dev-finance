@@ -1,1 +1,43 @@
-site_name: My Docs
+site_name: "dev.finance"
+
+# repo_url: https://github.com/bw3sley/fepi-dev-finance/
+# repo_name: "dev.finance"
+
+theme:
+  logo: assets/favicon.svg
+  favicon: assets/favicon.svg
+  name: material
+  language: "pt-BR"
+  features:
+    navigation.top
+    - navigation.sections
+    - toc.integrate
+    - navigation.prune 
+
+  palette:
+    scheme: default # slate
+    accent: light green
+
+  font:
+    code: Roboto Mono
+
+  icon:
+    repo: fontawesome/brands/git-alt 
+
+extra_css:
+  - global.css
+
+nav:
+  - Sobre: index.md
+  - Planejamento:
+    - Tecnologias e ferramentas: technical-tools/technical-tools.md
+  - Prototipagem: 
+    - Wireframe: prototype/wireframe.md
+    - Protótipo alta fidelidade: prototype/prototype.md
+
+plugins:
+  - search:
+      lang: pt-BR
+      lang: en-US
+
+copyright: Copyright &copy; 2023 Wesley & Lucas & Lívia

@@ -2,6 +2,8 @@ O projeto, desenvolvido durante a disciplina de Ferramentas de Desenvolvimento W
 
 Caso necessário, o documento do projeto pode ser baixado para consulta mais detalhada <a href="./uploads/TDE - 1º Bimestre.pdf" download>**clicando aqui**</a>.
 
+Atualmente, o projeto ainda não se encontra como concluído, tanto a documentação quanto o código-fonte estão sujeitos a grandes atualizações e melhorias. Reconhecemos a importância de uma documentação robusta e acessível, e estamos dedicando esforços significativos para aprimorá-la. No âmbito do código, planejamos implementar atualizações substanciais para aprimorar a funcionalidade e a eficiência. As melhorias propostas visam otimizar o desempenho, a segurança e a escalabilidade da aplicação, além de garantir que a aplicação esteja alinhada com as tecnologias presentes no mercado de trabalho, permitindo que esse projeto seja utilizado como um portfólio pelos membros da equipe.
+
 ## Equipe
 
 <center>
