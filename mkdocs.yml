@@ -30,6 +30,7 @@ extra_css:
 nav:
   - Sobre: index.md
   - Planejamento:
+    - Modelagem: modeling/modeling.md
     - Tecnologias e ferramentas: technical-tools/technical-tools.md
   - Prototipagem: 
     - Wireframe: prototype/wireframe.md
