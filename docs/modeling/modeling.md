@@ -84,8 +84,6 @@ Assim a equipe, identificou os relacionamentos e funcionalidades presentes no ap
 
             this.created_at = new Date() // não lembro como importa
         }
-
-
     }
 
     public class TipoTransacao {
