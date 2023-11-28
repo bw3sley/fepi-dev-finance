@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,12 +31,14 @@ public class TransactionController {
         this.transactionRepository = transactionRepository;
     }
 
+    @CrossOrigin
     @GetMapping("/")
     public ResponseEntity<List<Transaction>> fetchAllTransactions() {
         List<Transaction> transactions = transactionRepository.findAll();
         return ResponseEntity.ok(transactions);
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<?> fetchTransaction(@PathVariable Long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
@@ -48,12 +50,14 @@ public class TransactionController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin
     @PostMapping("/")
     public ResponseEntity<Transaction> create(@RequestBody Transaction transaction) {
         Transaction newTransaction = transactionRepository.save(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTransaction);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<Transaction> update(@PathVariable Long id, @RequestBody Transaction updatedTransaction) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -72,7 +76,7 @@ public class TransactionController {
         return ResponseEntity.notFound().build();
     }
     
-
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
