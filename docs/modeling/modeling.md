@@ -40,15 +40,18 @@ Vamos explorar seus componentes principais:
 
 Assim a equipe, identificou os relacionamentos e funcionalidades presentes no aplicativo e levantamos essas classes como as primordiais para o funcionamento do back-end e do banco de dados.
 
+### Classe do User
+Como o exercício pedia no mínimo **3 classes**, essas foi uma das classes da aplicação que acabou por não ser utilizado, tendo a noção que seria necessário criar outra tabela para gerar o vinculo entre usuário e transação.
+
 ```
-    public class Usuario {
+    public class User {
         public String publicId;
         
         private int id;
         private String name;
         private String email;
 
-        public Usuario (String name, String email) {
+        public User(String name, String email) {
             this.name = name;
             this.email = email;
 
@@ -72,25 +75,68 @@ Assim a equipe, identificou os relacionamentos e funcionalidades presentes no ap
             this.email = email;
         }
     }
+```
 
-    public class Transacao {
+### Classe de Transaction
+
+```
+    public class Transaction {
         private String description;
-        private int value;
+        private int amount;
         private Date created_at;
 
-        public Transacao(String description, int value) {
-            this.description = description;
-            this.value = value;
 
-            this.created_at = new Date() // não lembro como importa
+        public Transaction(long id, String description, int amount, String created_at) {
+            this.id = id;
+            this.description = description;
+            this.amount = amount;
+            this.created_at = created_at;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int value) {
+            this.amount = value;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
         }
     }
 
-    public class TipoTransacao {
+```
+
+### Classe de TransactionType
+Essa classe achei melhor transformar em um enum dentro da classe `Transaction`, porém não utilizo, pois trato quando o valor é negativo para **outcome** e positivo para **income**.
+
+```
+    public class TransactionType {
         private Bool income;
         private Bool outcome;
 
-        public TipoTransacao(int value) {
+        public TransactionType(int value) {
             if (value < 0) {
                 this.income = true;
             }
