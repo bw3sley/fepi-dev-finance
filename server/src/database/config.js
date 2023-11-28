@@ -8,7 +8,7 @@ database.serialize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             public_id TEXT UNIQUE NOT NULL,
             description TEXT NOT NULL,
-            value INT,
+            amount INT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `)

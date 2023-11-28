@@ -17,74 +17,103 @@ const Modal = {
         document.querySelector(".modal-overlay").classList.remove("active");
     },
 
-    edit(index) {
-        const transaction = Transaction.all[index];
-        Form.setEditTransaction(transaction, index);
-        Modal.open(true);
+    async edit(id) {
+        try {
+            const response = await fetch(`http://localhost:3333/transactions/${id}`);
+            const transaction = await response.json();
+
+            Form.setEditTransaction(transaction[0], id);
+
+            Modal.open(true);
+        } 
+        
+        catch (error) {
+            console.error('Erro ao carregar transação para edição:', error);
+        }
     }
 }
 
 const Storage = {
-    get() {
-        return JSON.parse(localStorage.getItem("dev.finance:transactions")) || [];
-    },
+    async get() {
+        const response = await fetch(`http://localhost:3333/transactions`);
+        const transactions = await response.json();
 
-    set(transactions) {
-        localStorage.setItem("dev.finance:transactions", JSON.stringify(transactions));
-    }
+        return transactions;
+    },
 }
 
 const Transaction = {
     all: Storage.get(),
 
     add(transaction) {
-        Transaction.all.push(transaction);
+        fetch(`http://localhost:3333/transactions`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(transaction)
+        })
+
+        App.reload();
+    },
+
+    remove(id) {
+        fetch(`http://localhost:3333/transactions/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
         
         App.reload();
     },
 
-    remove(index) {
-        Transaction.all.splice(index, 1);
+    edit(id) {
+        App.setEditingTransaction(id);
         
-        App.reload();
+        Modal.edit(id);
     },
 
-    edit(index) {
-        App.setEditingTransaction(index);
-        
-        Modal.edit(index);
-    },
-
-    editTransaction(index, editedTransaction) {
-        if (index >= 0 && index < Transaction.all.length) {
-            Transaction.all[index] = editedTransaction;
+    async editTransaction(id, updatedTransaction) {
+        try {
+            await fetch(`http://localhost:3333/transactions/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedTransaction)
+            });
 
             App.reload();
+        } 
+        
+        catch (error) {
+            console.error('Erro ao editar a transação:', error);
         }
     },
 
-    incomes() {
+    incomes(transactions) {
         let income = 0;
 
-        Transaction.all.forEach(transaction => {
+        transactions.forEach(transaction => {
             if (transaction.amount > 0) return income += transaction.amount;
         })
 
         return income;
     },
 
-    expenses() {
+    expenses(transactions) {
         let expense = 0;
 
-        Transaction.all.forEach(transaction => {
+        transactions.forEach(transaction => {
             if (transaction.amount < 0) return expense += transaction.amount;
         })
 
         return expense;
     },
 
-    total() {
-        return Number(Transaction.incomes()) + Number(Transaction.expenses());
+    total(transactions) {
+        return Number(Transaction.incomes(transactions)) + Number(Transaction.expenses(transactions));
     }
 }
 
@@ -94,34 +123,34 @@ const DOM = {
     addTransaction(transaction, index) {
         const tr = document.createElement("tr");
         tr.innerHTML = DOM.innerHTMLTransaction(transaction, index);
-        tr.dataset.index = index; 
+        tr.id = transaction["public_id"]; 
 
         DOM.transactionsContainer.appendChild(tr);
     },
 
     innerHTMLTransaction(transaction, index) {
-        const CSSClass = transaction.amount > 0 ? "income" : "expense";
-        const amountCurrency = Utils.formatCurrency(transaction.amount);
+        const CSSClass = transaction["amount"] > 0 ? "income" : "expense";
+        const amountCurrency = Utils.formatCurrency(transaction["amount"]);
 
         const html = `
-        <tr>
-            <td class="description">${transaction.description}</td>
-            <td class="${CSSClass}">${amountCurrency}</td>
-            <td class="date">${transaction.date}</td>
-            <td>
-            <i onclick="Transaction.edit(${index})" class="ph ph-pencil-line" alt="Editar transação" title="Editar transação"></i>
-            <i onclick="Transaction.remove(${index})" class="ph ph-minus-circle" alt="Remover transação" title="Remover transação"></i>
-            </td>
-        </tr>
+            <tr id="${transaction["public_id"]}">
+                <td class="description">${transaction["description"]}</td>
+                <td class="${CSSClass}">${amountCurrency}</td>
+                <td class="date">${transaction["created_at"]}</td>
+                <td>
+                    <i onclick="Transaction.edit('${transaction["public_id"]}')" class="ph ph-pencil-line" alt="Editar transação" title="Editar transação"></i>
+                    <i onclick="Transaction.remove('${transaction["public_id"]}')" class="ph ph-minus-circle" alt="Remover transação" title="Remover transação"></i>
+                </td>
+            </tr>
         `
 
         return html;
     },
 
-    updateBalance() {
-        document.querySelector("#incomeDisplay").innerHTML = Utils.formatCurrency(Transaction.incomes());
-        document.querySelector("#expenseDisplay").innerHTML = Utils.formatCurrency(Transaction.expenses());
-        document.querySelector("#totalDisplay").innerHTML = Utils.formatCurrency(Transaction.total());
+    updateBalance(transactions) {
+        document.querySelector("#incomeDisplay").innerHTML = Utils.formatCurrency(Transaction.incomes(transactions));
+        document.querySelector("#expenseDisplay").innerHTML = Utils.formatCurrency(Transaction.expenses(transactions));
+        document.querySelector("#totalDisplay").innerHTML = Utils.formatCurrency(Transaction.total(transactions));
     },
 
     clearTransactions() {
@@ -146,14 +175,15 @@ const Form = {
 
     fillDateInput(date) {
         const formattedDate = new Date(date).toISOString().split('T')[0];
+        
         Form.date.value = formattedDate;
     },
 
-    setEditTransaction(transaction, index) {
-        Form.description.value = transaction.description;
-        Form.amount.value = transaction.amount;
-        Form.fillDateInput(transaction.date);
-        Form.editingIndex = index;
+    setEditTransaction(transaction, id) {
+        Form.description.value = transaction["description"];
+        Form.amount.value = transaction["amount"];
+        Form.fillDateInput(transaction["created_at"]);
+        Form.editingIndex = id;
     },
 
     formatValues() {
@@ -161,12 +191,10 @@ const Form = {
 
         amount = Utils.formatAmount(amount);
         
-        date = Utils.formatDate(date);
-
         return {
             description,
             amount,
-            date
+            created_at: date
         }
     },
 
@@ -194,16 +222,14 @@ const Form = {
 
             if (Form.editingIndex !== null) {
                 Transaction.editTransaction(Form.editingIndex, transaction);
-                
+
                 Form.editingIndex = null;
-            } 
-            
-            else {
+            } else {
                 Transaction.add(transaction);
             }
 
             Form.clearFields();
-            
+
             Modal.close();
         } 
         
@@ -236,13 +262,14 @@ const Utils = {
 const App = {
     editingIndex: null,
 
-    init() {
-        Transaction.all.forEach((transaction, index) => {
+    async init() {
+        const transactions = await Transaction.all;
+
+        transactions.forEach((transaction, index) => {
             DOM.addTransaction(transaction, index);
         })
 
-        DOM.updateBalance();
-        Storage.set(Transaction.all);
+        DOM.updateBalance(transactions);
     },
 
     reload() {

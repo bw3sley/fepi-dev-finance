@@ -11,7 +11,7 @@ routes.get("/transactions", (request, response) => {
         SELECT 
             transactions.public_id, 
             transactions.description, 
-            transactions.value, 
+            transactions.amount, 
             transactions.created_at
         FROM transactions;
     `, (error, transactions) => {
@@ -34,7 +34,7 @@ routes.get("/transactions/:id", (request, response) => {
         SELECT 
             transactions.public_id, 
             transactions.description, 
-            transactions.value, 
+            transactions.amount, 
             transactions.created_at
         FROM transactions
         WHERE transactions.public_id = ?;
@@ -52,7 +52,7 @@ routes.get("/transactions/:id", (request, response) => {
 })
 
 routes.post("/transactions", (request, response) => {
-    const { description, value, created_at } = request.body;
+    const { description, amount, created_at } = request.body;
 
     const newTransactionId = randomUUID();
 
@@ -60,7 +60,7 @@ routes.post("/transactions", (request, response) => {
         INSERT INTO transactions (
             public_id,
             description,
-            value,
+            amount,
             created_at
         )
         VALUES (
@@ -69,29 +69,27 @@ routes.post("/transactions", (request, response) => {
             ?,
             ?
         );
-    `, [newTransactionId, description, value, created_at], (error, transaction) => {
+    `, [newTransactionId, description, amount, created_at], (error, transaction) => {
         if (error) {
             return response.status(500).json({ message: `${error}` });
         }
 
-        return response.status(201).json({ message: "Usuário criado com sucesso", transaction: transaction });
+        return response.status(201).json({ message: "Transação criada com sucesso", transaction: transaction });
     })
 })
 
 routes.put("/transactions/:id", (request, response) => {
     const { id } = request.params;
 
-    const { description, value, created_at } = request.body;
-
-    console.log(request.params, request.body);
+    const { description, amount, created_at } = request.body;
 
     database.run(`
         UPDATE transactions
             SET description = ?,
-                value = ?,
+                amount = ?,
                 created_at = ?
         WHERE transactions.public_id = ?;
-    `, [description, value, created_at, id], (error) => {
+    `, [description, amount, created_at, id], (error) => {
         if (error) {
             return response.status(500).json({ message: `${error}` });
         }
