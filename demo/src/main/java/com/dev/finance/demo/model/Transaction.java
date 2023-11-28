@@ -18,15 +18,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
     private long id;
     private String description;
-    private int value;
+    private int amount;
     private String created_at;
 
     public Transaction() {}
 
-    public Transaction(long id, String description, int value, String created_at) {
+    public Transaction(long id, String description, int amount, String created_at) {
         this.id = id;
         this.description = description;
-        this.value = value;
+        this.amount = amount;
         this.created_at = created_at;
     }
 
@@ -46,12 +46,12 @@ public class Transaction {
         this.description = description;
     }
 
-    public int getValue() {
-        return value;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getCreated_at() {

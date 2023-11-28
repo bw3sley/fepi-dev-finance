@@ -62,7 +62,7 @@ public class TransactionController {
             Transaction existingTransaction = optionalTransaction.get();
             
             existingTransaction.setDescription(updatedTransaction.getDescription());
-            existingTransaction.setValue(updatedTransaction.getValue());
+            existingTransaction.setAmount(updatedTransaction.getAmount());
             existingTransaction.setCreated_at(updatedTransaction.getCreated_at());
     
             Transaction updated = transactionRepository.save(existingTransaction);
