@@ -54,11 +54,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getCreated_at() {
+    public String getCreatedAt() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreatedAt(String created_at) {
         this.created_at = created_at;
     }
 }

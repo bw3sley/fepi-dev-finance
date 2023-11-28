@@ -63,7 +63,7 @@ public class TransactionController {
             
             existingTransaction.setDescription(updatedTransaction.getDescription());
             existingTransaction.setAmount(updatedTransaction.getAmount());
-            existingTransaction.setCreated_at(updatedTransaction.getCreated_at());
+            existingTransaction.setCreatedAt(updatedTransaction.getCreatedAt());
     
             Transaction updated = transactionRepository.save(existingTransaction);
             return ResponseEntity.ok(updated);
